@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "259696649029",
+    "project_id": "speech-ai-b8896",
+    "storage_bucket": "speech-ai-b8896.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259696649029:android:93bd2c52b3af5d819bd42c",
+        "android_client_info": {
+          "package_name": "com.google.firebase.quickstart.ai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259696649029-s7i4g69i2ju76icoeq6r4t0aj9mau9le.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRPyMxkrGkbLeXV_sjL_wDzPEVtKAXvsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259696649029-s7i4g69i2ju76icoeq6r4t0aj9mau9le.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259696649029:android:f27e63e9e9ceaa4e9bd42c",
+        "android_client_info": {
+          "package_name": "com.speechai.speechai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259696649029-v21l5lvhinf96tbu1u2gckm2bmjmh1t9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.speechai.speechai",
+            "certificate_hash": "c4db95ea04906ca7905da4f0d560ed1e08a2ba56"
+          }
+        },
+        {
+          "client_id": "259696649029-s7i4g69i2ju76icoeq6r4t0aj9mau9le.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRPyMxkrGkbLeXV_sjL_wDzPEVtKAXvsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259696649029-s7i4g69i2ju76icoeq6r4t0aj9mau9le.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

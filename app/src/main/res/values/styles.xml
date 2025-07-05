@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="lineCount" format="integer" />
+
+    <declare-styleable name="VoiceWave">
+        <attr name="lineThickness" format="float" />
+        <attr name="middleLineThickness" format="float" />
+        <attr name="gradientOffset" format="float" />
+        <attr name="startColor" format="color" />
+        <attr name="endColor" format="color" />
+        <attr name="middleColor" format="color" />
+        <attr name="density" format="float" />
+        <attr name="waveSpeed" format="enum">
+            <enum name="slow" value="0"/>
+            <enum name="normal" value="1"/>
+            <enum name="fast" value="2"/>
+        </attr>
+        <attr name="lineCount" />
+        <attr name="windowPadding" format="float" />
+    </declare-styleable>
+</resources>

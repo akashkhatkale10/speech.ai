@@ -1,0 +1,54 @@
+{
+  "confidence": {
+    "reason_for_score": "Your speech contained frequent hesitations and filler words such as \"uh\" and \"oh, okay\" throughout the recording. These pauses indicate a slight lack of self-assurance or a need to gather thoughts, impacting the overall impression of confidence. Reducing these pauses would significantly improve your confident delivery.",
+    "score": 65
+  },
+  "filler_words": {
+    "examples": [
+      "uh",
+      "so",
+      "oh, okay"
+    ],
+    "has_filler_words": true,
+    "reason_for_score": "You used filler words very frequently, especially \"uh,\" which appeared multiple times. These fillers disrupt the flow of your speech and can make you sound less prepared or articulate. Reducing their usage will make your speech smoother and more impactful.",
+    "score": 40
+  },
+  "fluency": {
+    "examples": [
+      "Today was my uh great day.",
+      "I uh had a very long day.",
+      "but uh nevertheless it was very productive day.",
+      "of the time then uh after that I came home and I slept for few hours then after that I woke up and then ate my dinner. Uh and uh oh okay."
+    ],
+    "reason_for_score": "Your fluency was impacted by numerous pauses and filler words, creating a somewhat choppy delivery. While you articulated your thoughts clearly, the frequent interruptions in the speech rhythm made it less smooth. Focusing on reducing pauses will enhance your fluency.",
+    "score": 55
+  },
+  "grammar_accuracy": {
+    "examples": [
+      "I slept for few hours (should be 'a few hours')"
+    ],
+    "reason_for_score": "Your grammar was largely accurate with only one minor error observed ('few hours' instead of 'a few hours'). This indicates a strong grasp of English grammar.",
+    "score": 90
+  },
+  "mumble": {
+    "did_mumble": false,
+    "examples": [],
+    "reason_for_score": "Your speech was clear and easy to understand throughout the recording. There were no instances of mumbling.",
+    "score": 95
+  },
+  "pronunciation": {
+    "examples": [],
+    "reason_for_score": "Your pronunciation was clear and accurate, with all words easily understandable. There were no noticeable pronunciation errors.",
+    "score": 95
+  },
+  "speaking_rate": {
+    "examples": [
+      "Today was my uh great day.",
+      "I uh had a very long day.",
+      "of the time then uh after that I came home"
+    ],
+    "reason_for_score": "Your speaking rate was within a normal range (around 167 words per minute). However, the frequent pauses and filler words made the overall delivery feel less consistent. While your actual speaking speed is good, the interruptions affect the perceived rhythm.",
+    "score": 75,
+    "words_per_minute": 167
+  }
+}
