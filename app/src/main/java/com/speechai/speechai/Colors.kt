@@ -15,6 +15,7 @@ val quaternaryColor = androidx.compose.ui.graphics.Color(0xFF414141)
 val greenColor = Color(0xFF008F53)
 val lightGreenColor = Color(0x35008F53)
 
+val lightGoldenColor = Color(0x20FFA12D)
 val goldenColor = Color(0xFFFFA12D)
 val yellowColor = Color(0xFFDBA600)
 val lightYellowColor = Color(0x35DBA600)

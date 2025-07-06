@@ -64,10 +64,10 @@ fun OnboardingScreen(
     val benefits = viewModel.currentBenefit.collectAsState()
 
     LaunchedEffect(Unit) {
-//        sharedPrefs.putBoolean(
-//            ONBOARDING_COMPLETED,
-//            true
-//        )
+        sharedPrefs.putBoolean(
+            ONBOARDING_COMPLETED,
+            true
+        )
         viewModel.emitBenefits()
     }
 
