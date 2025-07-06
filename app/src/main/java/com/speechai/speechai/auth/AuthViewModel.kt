@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.speechai.speechai.data.models.AudioAnalyseModel
+import com.speechai.speechai.data.models.AudioMetadata
 import com.speechai.speechai.data.models.DetailedAudioAnalysisModel
 import com.speechai.speechai.data.models.UserData
 import com.speechai.speechai.data.repository.LoginRepository
@@ -44,7 +45,9 @@ class AuthViewModel @Inject constructor(
     fun loginUser(
         signInResult: SignInResult,
         file: File? = null,
-        audioAnalyseModel: AudioAnalyseModel? = null
+        audioAnalyseModel: AudioAnalyseModel? = null,
+        totalScore: Int? = null,
+        duration: Long? = null
     ) = viewModelScope.launch {
         _loginState.update {
             it.copy(isLoading = true)
@@ -66,7 +69,13 @@ class AuthViewModel @Inject constructor(
                     userRepository.postAudioAnalysis(
                         audioAnalyseState = DetailedAudioAnalysisModel(
                             data = audioAnalyseModel,
-                            downloadUrl = storageResult.downloadUrl
+                            downloadUrl = storageResult.downloadUrl,
+                            timestamp = System.currentTimeMillis(),
+                            userId = data.userId,
+                            totalScore = totalScore,
+                            audioMetadata = storageResult.metadata.copy(
+                                durationMillis = duration
+                            )
                         )
                     )
                 }

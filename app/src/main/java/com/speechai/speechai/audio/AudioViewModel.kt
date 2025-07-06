@@ -51,10 +51,8 @@ class AudioViewModel @Inject constructor(
             )
         }
         delay(2000)
-        Log.d("AKASH_LOG", "generateContent: generatingg")
         try {
             val content = context.toModelFromAssets<AudioAnalyseModel>("sample_response.json")
-            Log.d("AKASH_LOG", "generateContent: response: $content")
             _analysisResult.update {
                 it.copy(
                     isLoading = false,
@@ -75,7 +73,6 @@ class AudioViewModel @Inject constructor(
 //                }
 //            }
         } catch (e: Exception) {
-            Log.d("AKASH_LOG", "generateContent: exception: ${e.localizedMessage}")
             _analysisResult.update {
                 it.copy(
                     isLoading = false,

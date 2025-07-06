@@ -8,4 +8,6 @@ interface UserRepository {
         audioAnalyseState: DetailedAudioAnalysisModel
     ): Result<Boolean>
 
+    suspend fun getAudioHistory(): Result<List<DetailedAudioAnalysisModel>>
+
 }

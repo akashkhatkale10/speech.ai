@@ -5,21 +5,21 @@ import com.google.gson.annotations.SerializedName
 
 @Keep
 data class AudioAnalyseModel(
-    @SerializedName("confidence") val confidence: PropertiesModel?,
-    @SerializedName("pronunciation") val pronunciation: PropertiesModel?,
-    @SerializedName("speaking_rate") val speakingRate: PropertiesModel?,
-    @SerializedName("mumble") val mumble: PropertiesModel?,
-    @SerializedName("grammar_accuracy") val grammarAccuracy: PropertiesModel?,
-    @SerializedName("fluency") val fluency: PropertiesModel?,
-    @SerializedName("filler_words") val fillerWords: PropertiesModel?,
+    @SerializedName("confidence") val confidence: PropertiesModel? = null,
+    @SerializedName("pronunciation") val pronunciation: PropertiesModel? = null,
+    @SerializedName("speaking_rate") val speakingRate: PropertiesModel? = null,
+    @SerializedName("mumble") val mumble: PropertiesModel? = null,
+    @SerializedName("grammar_accuracy") val grammarAccuracy: PropertiesModel? = null,
+    @SerializedName("fluency") val fluency: PropertiesModel? = null,
+    @SerializedName("filler_words") val fillerWords: PropertiesModel? = null,
 )
 
 @Keep
 data class PropertiesModel(
-    @SerializedName("score") val score: Int?,
-    @SerializedName("did_mumble") val didMumble: Boolean?,
-    @SerializedName("has_filler_words") val hasFillerWords: Boolean?,
-    @SerializedName("words_per_minute") val wordsPerMinute: Int?,
-    @SerializedName("reason_for_score") val reasonForScore: String?,
-    @SerializedName("examples") val examples: List<String>?,
+    @SerializedName("score") val score: Int? = null,
+    @SerializedName("did_mumble") val didMumble: Boolean? = null,
+    @SerializedName("has_filler_words") val hasFillerWords: Boolean? = null,
+    @SerializedName("words_per_minute") val wordsPerMinute: Int? = null,
+    @SerializedName("reason_for_score") val reasonForScore: String? = null,
+    @SerializedName("examples") val examples: List<String>? = null,
 )

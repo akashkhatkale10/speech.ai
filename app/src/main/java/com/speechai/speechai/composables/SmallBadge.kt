@@ -35,7 +35,8 @@ fun SmallBadge(
     textStyle: TextStyle = CustomTextStyle.copy(
         fontSize = 12.sp,
         fontWeight = FontWeight.Medium
-    )
+    ),
+    startComposable: (@Composable () -> Unit)? = {}
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -50,8 +51,12 @@ fun SmallBadge(
                 shape = RoundedCornerShape(100.dp)
             )
             .padding(start = 14.dp, end = 6.dp)
-            .padding(vertical = 4.dp)
+            .padding(vertical = 8.dp)
     ) {
+        if (startComposable != null) {
+            startComposable()
+            Spacer(Modifier.width(10.dp))
+        }
         Text(
             text = text,
             color = contentColor,

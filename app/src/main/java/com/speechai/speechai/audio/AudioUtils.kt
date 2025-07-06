@@ -187,4 +187,5 @@ object AudioUtils {
 
     fun isExcellent(score: Int) = score > 89
     fun isFair(score: Int) = score > 74
+    fun isBad(score: Int) = score < 75
 }

@@ -40,9 +40,7 @@ import androidx.navigation.createGraph
 import com.speechai.speechai.CustomTextStyle
 import com.speechai.speechai.R
 import com.speechai.speechai.backgroundColor
-import com.speechai.speechai.composables.CustomTopBar
 import com.speechai.speechai.lightGoldenColor
-import com.speechai.speechai.lightYellowColor
 import com.speechai.speechai.screens.analyse.AnalyseScreen
 import com.speechai.speechai.screens.history.HistoryScreen
 import com.speechai.speechai.screens.home.HomeUtils.menuItems
@@ -58,6 +56,9 @@ fun HomeScreen(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
+    var isBottomBarVisible by remember {
+        mutableStateOf(true)
+    }
     var selectedIndex by remember {
         mutableIntStateOf(0)
     }
@@ -67,28 +68,30 @@ fun HomeScreen(
         containerColor = backgroundColor,
         bottomBar = {
             BottomAppBar(
-                containerColor = backgroundColor,
+                containerColor = Color.Transparent,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp)
             ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    menuItems.forEachIndexed { index, item ->
-                        MenuItemContent(
-                            item = item,
-                            index = index,
-                            selectedIndex = selectedIndex,
-                            onMenuItemClick = {
-                                selectedIndex = index
-                                mainNavHost.navigate(
-                                    it.route.route
-                                )
-                            }
-                        )
+                if (isBottomBarVisible) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        menuItems.forEachIndexed { index, item ->
+                            MenuItemContent(
+                                item = item,
+                                index = index,
+                                selectedIndex = selectedIndex,
+                                onMenuItemClick = {
+                                    selectedIndex = index
+                                    mainNavHost.navigate(
+                                        it.route.route
+                                    )
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -101,7 +104,12 @@ fun HomeScreen(
             val graph =
                 mainNavHost.createGraph(startDestination = HomeScreenRoute.Analyse.route) {
                     composable(route = HomeScreenRoute.Analyse.route) {
-                        AnalyseScreen(navController)
+                        AnalyseScreen(
+                            navController,
+                            isRecording = { isRecording ->
+                                isBottomBarVisible = isRecording.not()
+                            }
+                        )
                     }
                     composable(route = HomeScreenRoute.Practice.route) {
                         PracticeScreen()
@@ -110,7 +118,13 @@ fun HomeScreen(
                         ProgressScreen()
                     }
                     composable(route = HomeScreenRoute.History.route) {
-                        HistoryScreen()
+                        HistoryScreen(
+                            mainNavHost,
+                            onRecordClick ={
+                                selectedIndex = 0
+                                mainNavHost.navigate(HomeScreenRoute.Analyse.route)
+                            }
+                        )
                     }
                 }
             NavHost(

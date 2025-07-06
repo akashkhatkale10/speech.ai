@@ -93,6 +93,15 @@ class AndroidAudioRecorder(
         recorder?.resume()
     }
 
+    override fun cancel() {
+        recordingState = RecordingState.IDLE
+        recorder?.stop()
+        recorder?.reset()
+        timerJob?.cancel()
+        _timerState.value = 0
+        recorder = null
+    }
+
     private fun startAmplitudeUpdates() {
         amplitudeJob?.cancel()
         val scope = CoroutineScope(Dispatchers.Default)

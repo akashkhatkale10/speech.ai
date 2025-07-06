@@ -39,6 +39,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.PlayArrow
@@ -203,7 +204,13 @@ fun OnboardingRecordingScreen(
                     val signInResult = googleAuthUiClient.signInWithIntent(
                         intent = result.data ?: return@launch
                     )
-                    authViewModel.loginUser(signInResult, audioFile, analysisResult.value.response?.response)
+                    authViewModel.loginUser(
+                        signInResult,
+                        audioFile,
+                        analysisResult.value.response?.response,
+                        analysisResult.value.response?.totalScore,
+                        duration = audioRecorder.timerState.value
+                    )
                 }
             } else {
                 authViewModel.loadingState(false)
@@ -387,7 +394,7 @@ fun OnboardingRecordingScreen(
             }
 
 
-            if (permissionState == AudioPermissionState.Granted && recordingState != RecordingState.STOPPED) {
+            if (permissionState != AudioPermissionState.Denied && recordingState != RecordingState.STOPPED) {
                 RecordingSection(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -401,6 +408,9 @@ fun OnboardingRecordingScreen(
                         } else if (recordingState == RecordingState.PAUSED) {
                             audioRecorder.resume()
                         }
+                    },
+                    onCancelClick = {
+                        audioRecorder.cancel()
                     },
                     onRecordingClick = {
                         if (recordingState == RecordingState.IDLE && !permissionRequested) {
@@ -464,7 +474,7 @@ fun OnboardingRecordingScreen(
                     }
                 } else {
                     SmallBadge(
-                        backgroundColor = Color.Transparent,
+                        backgroundColor = secondaryColor,
                         borderColor = tertiaryColor,
                         text = "skip to the app",
                         icon = Icons.Default.KeyboardArrowRight,
@@ -775,6 +785,7 @@ fun PropertiesItemContent(
 fun RecordingSection(
     onPausePlayClick: () -> Unit,
     onRecordingClick: () -> Unit,
+    onCancelClick: () -> Unit,
     recordingState: RecordingState,
     modifier: Modifier = Modifier
 ) {
@@ -785,6 +796,7 @@ fun RecordingSection(
             onRecordingClick = onRecordingClick,
             onPausePlayClick = onPausePlayClick,
             recordingState = recordingState,
+            onCancelClick = onCancelClick,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 50.dp)
@@ -798,6 +810,7 @@ fun RecordingSection(
 fun RecordingButtons(
     onPausePlayClick: () -> Unit,
     onRecordingClick: () -> Unit,
+    onCancelClick: () -> Unit,
     recordingState: RecordingState,
     modifier: Modifier = Modifier
 ) {
@@ -823,6 +836,19 @@ fun RecordingButtons(
             modifier = Modifier
                 .align(Alignment.Center)
         )
+        if (recordingState == RecordingState.PLAYING || recordingState == RecordingState.PAUSED) {
+            SmallCircleButton(
+                iconSize = if (recordingState == RecordingState.PLAYING) 20.dp else 30.dp,
+                icon = Icons.Default.Close,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd),
+                onClick = {
+                    onCancelClick()
+                },
+                bgColor = Color.Transparent,
+                borderColor = tertiaryColor,
+            )
+        }
     }
 }
 

@@ -9,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,8 @@ import com.speechai.speechai.whiteColor
 fun SmallCircleButton(
     icon: ImageVector,
     iconSize: Dp = 30.dp,
+    bgColor: Color = tertiaryColor,
+    borderColor: Color = quaternaryColor,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
@@ -31,12 +34,12 @@ fun SmallCircleButton(
             }
             .size(54.dp)
             .background(
-                color = tertiaryColor,
+                color = bgColor,
                 shape = CircleShape
             )
             .border(
                 width = 1.dp,
-                color = quaternaryColor,
+                color = borderColor,
                 shape = CircleShape
             )
     ) {

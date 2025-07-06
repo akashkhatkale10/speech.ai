@@ -16,6 +16,7 @@ data class StateTagModel(
     val title: String,
     val borderColor: Color,
     val bgColor: Color,
+    val tag: StateTag
 )
 
 fun getStateTagModel(stateTag: StateTag): StateTagModel? {
@@ -23,19 +24,22 @@ fun getStateTagModel(stateTag: StateTag): StateTagModel? {
         StateTag.EXCELLENT -> StateTagModel(
             title = "excellent",
             bgColor = lightGreenColor,
-            borderColor = greenColor
+            borderColor = greenColor,
+            tag = StateTag.EXCELLENT
         )
 
         StateTag.FAIR -> StateTagModel(
             title = "fair",
             bgColor = lightYellowColor,
-            borderColor = yellowColor
+            borderColor = yellowColor,
+            tag = StateTag.FAIR
         )
 
         StateTag.BAD -> StateTagModel(
             title = "bad",
             bgColor = lightRedColor,
-            borderColor = redColor
+            borderColor = redColor,
+            tag = StateTag.BAD
         )
 
         else -> null

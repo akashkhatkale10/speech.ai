@@ -7,4 +7,5 @@ interface AudioRecorder {
     fun stop()
     fun pause()
     fun resume()
+    fun cancel()
 }
