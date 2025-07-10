@@ -9,11 +9,12 @@ import com.speechai.speechai.models.PropertyUiModel
 import com.speechai.speechai.models.StateTag
 import com.speechai.speechai.redColor
 import com.speechai.speechai.yellowColor
+import java.io.File
 import java.util.UUID
 import kotlin.math.roundToInt
 
 object AudioUtils {
-    fun buildResponse(content: AudioAnalyseModel?): AnalysisScreenData {
+    fun buildResponse(file: File, content: AudioAnalyseModel?): AnalysisScreenData {
         val bestScore = mutableListOf<PropertyUiModel>()
         val worstScore = mutableListOf<PropertyUiModel>()
         val others = mutableListOf<PropertyUiModel>()
@@ -149,7 +150,6 @@ object AudioUtils {
 
 
         val score = (totalScore / totalItems.toFloat()).roundToInt()
-        Log.d("AKASH_LOG", "buildResponse: scoree $score")
         return AnalysisScreenData(
             id = UUID.randomUUID().toString(),
             response = content,
@@ -157,7 +157,8 @@ object AudioUtils {
             bestScore = bestScore,
             worstScore = worstScore,
             otherScore = others,
-            totalScoreColor = getTotalScoreColor(score)
+            totalScoreColor = getTotalScoreColor(score),
+            file = file
         )
     }
 

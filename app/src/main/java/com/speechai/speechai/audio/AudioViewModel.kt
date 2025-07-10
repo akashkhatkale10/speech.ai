@@ -18,6 +18,7 @@ import com.speechai.speechai.audio.AudioUtils.buildResponse
 import com.speechai.speechai.data.models.AudioAnalyseModel
 import com.speechai.speechai.models.AudioAnalyseState
 import com.speechai.speechai.utils.analyseAudioResponseSchema
+import com.speechai.speechai.utils.getAudioFileFromAssets
 import com.speechai.speechai.utils.readAudioFileFromAssets
 import com.speechai.speechai.utils.toModelFromAssets
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,7 +58,7 @@ class AudioViewModel @Inject constructor(
                 it.copy(
                     isLoading = false,
                     error = null,
-                    response = buildResponse(content)
+                    response = buildResponse(file, content)
                 )
             }
 //            generateAnalysis(

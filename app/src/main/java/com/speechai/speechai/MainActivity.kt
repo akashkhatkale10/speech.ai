@@ -42,12 +42,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.speechai.speechai.composables.WavePaintConfig
 import com.speechai.speechai.databinding.MainActivityBinding
+import com.speechai.speechai.models.AnalysisScreenData
 import com.speechai.speechai.models.Screen
 import com.speechai.speechai.prefs.SharedPrefs
+import com.speechai.speechai.screens.history.HistoryScreen
 import com.speechai.speechai.screens.home.HomeScreen
 import com.speechai.speechai.screens.onboarding.OnboardingRecordingScreen
 import com.speechai.speechai.screens.onboarding.OnboardingScreen
 import com.speechai.speechai.screens.onboarding.OnboardingViewModel
+import com.speechai.speechai.screens.results.ResultScreen
 import com.speechai.speechai.screens.splash.SplashScreen
 import com.speechai.speechai.ui.theme.SpeechAiTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -94,6 +97,18 @@ class MainActivity : ComponentActivity() {
                             sharedPrefs = sharedPrefs,
                             navController = navController
                         )
+                    }
+
+                    composable(Screen.Result.route) {
+                        val screenData = navController.previousBackStackEntry?.savedStateHandle?.get<AnalysisScreenData>("analysis")
+                        screenData?.let {
+                            ResultScreen(
+                                screenData = it,
+                            )
+                        } ?: run {
+                            // todo something went wrong
+                        }
+
                     }
 
                     // Add composable(Screen.Home.route) { ... }

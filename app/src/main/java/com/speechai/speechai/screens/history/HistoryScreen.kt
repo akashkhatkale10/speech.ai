@@ -498,14 +498,14 @@ fun NavigationChip(
             }
             .background(
                 color = bgColor,
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(100.dp)
             )
             .border(
                 width = 1.dp,
                 color = borderColor,
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(100.dp)
             )
-            .padding(horizontal = 24.dp, vertical = 12.dp)
+            .padding(horizontal = 24.dp, vertical = 8.dp)
     ) {
         Text(
             text = item,

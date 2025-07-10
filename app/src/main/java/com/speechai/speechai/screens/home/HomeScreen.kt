@@ -1,5 +1,6 @@
 package com.speechai.speechai.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -7,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -41,6 +41,7 @@ import com.speechai.speechai.CustomTextStyle
 import com.speechai.speechai.R
 import com.speechai.speechai.backgroundColor
 import com.speechai.speechai.lightGoldenColor
+import com.speechai.speechai.models.Screen
 import com.speechai.speechai.screens.analyse.AnalyseScreen
 import com.speechai.speechai.screens.history.HistoryScreen
 import com.speechai.speechai.screens.home.HomeUtils.menuItems
@@ -108,6 +109,10 @@ fun HomeScreen(
                             navController,
                             isRecording = { isRecording ->
                                 isBottomBarVisible = isRecording.not()
+                            },
+                            recordingFinished = {
+                                navController.currentBackStackEntry?.savedStateHandle?.set("analysis", it)
+                                navController.navigate(Screen.Result.route)
                             }
                         )
                     }

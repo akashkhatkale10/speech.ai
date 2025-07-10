@@ -7,6 +7,7 @@ import android.util.Log
 import com.google.firebase.BuildConfig
 import com.google.gson.Gson
 import java.io.ByteArrayOutputStream
+import java.io.File
 
 fun readAudioFileFromAssets(context: Context, filename: String): ByteArray {
     val buffer = ByteArrayOutputStream()
@@ -21,6 +22,15 @@ fun readAudioFileFromAssets(context: Context, filename: String): ByteArray {
     buffer.close()
     inputStream.close()
     return byteData
+}
+
+fun Context.getAudioFileFromAssets(filename: String): File {
+    val byteArray = readAudioFileFromAssets(this, filename)
+    val file = File(cacheDir, filename)
+    file.outputStream().use {
+        it.write(byteArray)
+    }
+    return file
 }
 
 fun <T> toModel(value: String?, classOf: Class<T>): T? {

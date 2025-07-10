@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.LinearEasing
@@ -54,16 +55,19 @@ import com.speechai.speechai.composables.CustomTopBar
 import com.speechai.speechai.composables.Loading
 import com.speechai.speechai.composables.ProgressBar
 import com.speechai.speechai.composables.RecordingState
+import com.speechai.speechai.models.AnalysisScreenData
 import com.speechai.speechai.screens.onboarding.AudioPermissionState
 import com.speechai.speechai.screens.onboarding.RecordingSection
 import com.speechai.speechai.screens.onboarding.TimerContent
 import com.speechai.speechai.secondaryColor
+import com.speechai.speechai.utils.getAudioFileFromAssets
 import com.speechai.speechai.whiteColor
 import java.io.File
 
 @Composable
 fun AnalyseScreen(
     navController: NavController,
+    recordingFinished: (analysis: AnalysisScreenData) -> Unit,
     isRecording: (isRecording: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -106,6 +110,7 @@ fun AnalyseScreen(
                 audioFile = file
             }
             recordingState = RecordingState.PLAYING
+            isRecording(true)
         } else {
             val intent =
                 Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
@@ -130,6 +135,11 @@ fun AnalyseScreen(
     }
 
 
+    LaunchedEffect(analysisResult.value) {
+        analysisResult.value.response?.let {
+            recordingFinished(analysisResult.value.response!!)
+        }
+    }
 
 
     Box(
@@ -332,18 +342,12 @@ fun AnalyseScreen(
                             else -> {
                                 audioRecorder.stop()
                                 audioFile?.let {
-                                    audioViewModel.analyseAudio(it)
+                                    // todo change this
+                                    audioViewModel.analyseAudio(context.getAudioFileFromAssets("sample.mp3"))
                                 }
                             }
                         }
                     }
-//
-//                    if (recordingState == RecordingState.IDLE && !permissionRequested) {
-//                        permissionRequested = true
-//
-//                    } else {
-//
-//                    }
                 }
             )
         }

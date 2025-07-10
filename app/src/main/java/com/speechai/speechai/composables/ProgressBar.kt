@@ -16,17 +16,18 @@ import com.speechai.speechai.tertiaryColor
 @Composable
 fun ProgressBar(
     progress: () -> Float,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    height: Int = 10
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(10.dp)
+            .height(height.dp)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(4.dp)
+                .height((height / 2.5).dp)
                 .background(
                     color = tertiaryColor
                 )

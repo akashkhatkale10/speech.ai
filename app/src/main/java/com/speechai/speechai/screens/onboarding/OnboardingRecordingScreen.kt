@@ -855,14 +855,16 @@ fun RecordingButtons(
 @Composable
 fun TimerContent(
     timer: Long,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    mainTextSize: Int = 20,
+    secondaryTextSize: Int = 16
 ) {
     Text(
         text = buildAnnotatedString {
             withStyle(
                 SpanStyle(
                     color = whiteColor,
-                    fontSize = 20.sp,
+                    fontSize = mainTextSize.sp,
                     fontWeight = FontWeight.SemiBold
                 )
             ) {
@@ -871,7 +873,7 @@ fun TimerContent(
             withStyle(
                 SpanStyle(
                     color = subtitleTextColor,
-                    fontSize = 16.sp,
+                    fontSize = secondaryTextSize.sp,
                     fontWeight = FontWeight.SemiBold
                 )
             ) {
