@@ -40,6 +40,16 @@ class AudioViewModel @Inject constructor(
     private val _analysisResult = MutableStateFlow(AudioAnalyseState())
     val analysisResult: StateFlow<AudioAnalyseState> = _analysisResult.asStateFlow()
 
+    fun clearAnalyseAudioState() {
+        _analysisResult.update {
+            it.copy(
+                isLoading = false,
+                error = null,
+                response = null
+            )
+        }
+    }
+
     fun analyseAudio(
         file: File
     ) = viewModelScope.launch {

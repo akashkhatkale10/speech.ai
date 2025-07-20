@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.speechai.speechai.CustomTextStyle
 import com.speechai.speechai.R
 import com.speechai.speechai.audio.player.AndroidAudioPlayer
@@ -47,10 +48,12 @@ import com.speechai.speechai.screens.onboarding.TimerContent
 import com.speechai.speechai.secondaryColor
 import com.speechai.speechai.subtitleTextColor
 import com.speechai.speechai.tertiaryColor
+import com.speechai.speechai.utils.bounceClick
 import com.speechai.speechai.whiteColor
 
 @Composable
 fun ResultScreen(
+    navController: NavController,
     screenData: AnalysisScreenData,
     modifier: Modifier = Modifier
 ) {
@@ -79,6 +82,9 @@ fun ResultScreen(
                 startComposable = {
                     Box(
                         modifier = Modifier
+                            .bounceClick {
+                                navController.navigateUp()
+                            }
                             .size(34.dp)
                             .background(
                                 color = tertiaryColor,

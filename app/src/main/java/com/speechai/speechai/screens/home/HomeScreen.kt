@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -66,6 +67,8 @@ fun HomeScreen(
     val mainNavHost = rememberNavController()
 
     Scaffold(
+        modifier = Modifier
+            .fillMaxSize(),
         containerColor = backgroundColor,
         bottomBar = {
             BottomAppBar(
@@ -100,11 +103,14 @@ fun HomeScreen(
     ) {
         Box(
             modifier = modifier
+                .fillMaxSize()
                 .padding(it)
         ) {
             val graph =
                 mainNavHost.createGraph(startDestination = HomeScreenRoute.Analyse.route) {
-                    composable(route = HomeScreenRoute.Analyse.route) {
+                    composable(
+                        route = HomeScreenRoute.Analyse.route
+                    ) {
                         AnalyseScreen(
                             navController,
                             isRecording = { isRecording ->
@@ -136,6 +142,7 @@ fun HomeScreen(
                 navController = mainNavHost,
                 graph = graph,
                 modifier = Modifier
+                    .fillMaxSize()
                     .background(backgroundColor)
             )
         }

@@ -25,13 +25,9 @@ fun SmallCircleButton(
     bgColor: Color = tertiaryColor,
     borderColor: Color = quaternaryColor,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
-            .bounceClick {
-                onClick()
-            }
             .size(54.dp)
             .background(
                 color = bgColor,

@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -81,13 +82,14 @@ fun AnalyseScreen(
         mutableStateOf(null)
     }
     var permissionState by remember { mutableStateOf<AudioPermissionState>(AudioPermissionState.NeverAsked) }
-    var permissionRequested by remember { mutableStateOf(
-        ContextCompat.checkSelfPermission(
-            context,
-            Manifest.permission.RECORD_AUDIO
-        ) == PackageManager.PERMISSION_GRANTED
-    ) }
-
+    var permissionRequested by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.RECORD_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+    }
 
 
     // --- Permission Launcher ---
@@ -103,9 +105,10 @@ fun AnalyseScreen(
     val audioPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
-        permissionState = if (isGranted) AudioPermissionState.Granted else AudioPermissionState.Denied
+        permissionState =
+            if (isGranted) AudioPermissionState.Granted else AudioPermissionState.Denied
         if (isGranted) {
-            File.createTempFile("temp_audio", ".mp3", context.cacheDir,).also { file ->
+            File.createTempFile("temp_audio", ".mp3", context.cacheDir).also { file ->
                 audioRecorder.start(file)
                 audioFile = file
             }
@@ -125,19 +128,29 @@ fun AnalyseScreen(
         targetValue = timer.value / 60f,
         animationSpec = tween(durationMillis = 1000, easing = LinearEasing),
     )
+    val buttonsOffsetY = animateFloatAsState(
+        targetValue = if (recordingState == RecordingState.STOPPED) 100f else 0f,
+        animationSpec = tween(durationMillis = 300, easing = LinearEasing)
+    )
+    val buttonsAlpha = animateFloatAsState(
+        targetValue = if (recordingState == RecordingState.STOPPED) 0f else 1f,
+        animationSpec = tween(durationMillis = 300, easing = LinearEasing)
+    )
 
     LaunchedEffect(Unit) {
         val granted = ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.RECORD_AUDIO
         ) == PackageManager.PERMISSION_GRANTED
-        permissionState = if (granted) AudioPermissionState.Granted else AudioPermissionState.NeverAsked
+        permissionState =
+            if (granted) AudioPermissionState.Granted else AudioPermissionState.NeverAsked
     }
 
 
     LaunchedEffect(analysisResult.value) {
         analysisResult.value.response?.let {
             recordingFinished(analysisResult.value.response!!)
+            audioViewModel.clearAnalyseAudioState()
         }
     }
 
@@ -283,11 +296,13 @@ fun AnalyseScreen(
                 ) {
                     Text(
                         text = buildAnnotatedString {
-                            withStyle(SpanStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = whiteColor,
-                            )) {
+                            withStyle(
+                                SpanStyle(
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = whiteColor,
+                                )
+                            ) {
                                 append("hang tight – your speech results are coming\nup...")
                             }
                         },
@@ -306,51 +321,52 @@ fun AnalyseScreen(
             }
         }
 
-        if (recordingState != RecordingState.STOPPED) {
-            RecordingSection(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .padding(bottom = 50.dp)
-                    .align(Alignment.BottomCenter),
-                recordingState = recordingState,
-                onPausePlayClick = {
-                    if (recordingState == RecordingState.PLAYING) {
-                        audioRecorder.pause()
-                    } else if (recordingState == RecordingState.PAUSED) {
-                        audioRecorder.resume()
-                    }
+        RecordingSection(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+                .padding(bottom = 50.dp)
+                .align(Alignment.BottomCenter)
+                .graphicsLayer {
+                    alpha = buttonsAlpha.value
+                    translationY = buttonsOffsetY.value
                 },
-                onCancelClick = {
-                    isRecording(false)
-                    audioRecorder.cancel()
-                },
-                onRecordingClick = {
-                    if (permissionState == AudioPermissionState.Denied || permissionState == AudioPermissionState.NeverAsked) {
-                        audioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-                    } else if (permissionState == AudioPermissionState.Granted){
-                        isRecording(true)
-                        when (recordingState) {
-                            RecordingState.IDLE -> {
-                                File.createTempFile("temp_audio", ".mp3", context.cacheDir,)
-                                    .also { file ->
-                                        audioRecorder.start(file)
-                                        audioFile = file
-                                    }
-                            }
-
-                            else -> {
-                                audioRecorder.stop()
-                                audioFile?.let {
-                                    // todo change this
-                                    audioViewModel.analyseAudio(context.getAudioFileFromAssets("sample.mp3"))
+            recordingState = recordingState,
+            onPausePlayClick = {
+                if (recordingState == RecordingState.PLAYING) {
+                    audioRecorder.pause()
+                } else if (recordingState == RecordingState.PAUSED) {
+                    audioRecorder.resume()
+                }
+            },
+            onCancelClick = {
+                isRecording(false)
+                audioRecorder.cancel()
+            },
+            onRecordingClick = {
+                if (permissionState == AudioPermissionState.Denied || permissionState == AudioPermissionState.NeverAsked) {
+                    audioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                } else if (permissionState == AudioPermissionState.Granted) {
+                    isRecording(true)
+                    when (recordingState) {
+                        RecordingState.IDLE -> {
+                            File.createTempFile("temp_audio", ".mp3", context.cacheDir)
+                                .also { file ->
+                                    audioRecorder.start(file)
+                                    audioFile = file
                                 }
+                        }
+
+                        else -> {
+                            audioRecorder.stop()
+                            audioFile?.let {
+                                // todo change this
+                                audioViewModel.analyseAudio(context.getAudioFileFromAssets("sample.mp3"))
                             }
                         }
                     }
                 }
-            )
-        }
-
+            }
+        )
     }
 }

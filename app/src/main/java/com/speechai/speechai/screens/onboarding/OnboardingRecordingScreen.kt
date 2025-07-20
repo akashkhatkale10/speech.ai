@@ -11,6 +11,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -61,7 +62,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -814,37 +817,75 @@ fun RecordingButtons(
     recordingState: RecordingState,
     modifier: Modifier = Modifier
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
+
     Box(
         modifier = modifier,
     ) {
-        if (recordingState == RecordingState.PLAYING || recordingState == RecordingState.PAUSED) {
+        AnimatedVisibility (
+            recordingState == RecordingState.PLAYING || recordingState == RecordingState.PAUSED,
+            enter = fadeIn(
+                animationSpec = tween(
+                    durationMillis = 300
+                )
+            ),
+            exit = fadeOut(
+                animationSpec = tween(
+                    durationMillis = 300
+                )
+            ),
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+        ) {
             SmallCircleButton(
                 iconSize = if (recordingState == RecordingState.PLAYING) 20.dp else 30.dp,
                 icon = if (recordingState == RecordingState.PLAYING) ImageVector.vectorResource(R.drawable.pause) else Icons.Default.PlayArrow,
                 modifier = Modifier
-                    .align(Alignment.CenterStart),
-                onClick = {
-                    onPausePlayClick()
-                }
+                    .bounceClick {
+                        hapticFeedback.performHapticFeedback(
+                            HapticFeedbackType.LongPress
+                        )
+                        onPausePlayClick()
+                    },
             )
         }
         RecordingButton(
             state = recordingState,
             onClick = {
+                hapticFeedback.performHapticFeedback(
+                    HapticFeedbackType.LongPress
+                )
                 onRecordingClick()
             },
             modifier = Modifier
                 .align(Alignment.Center)
         )
-        if (recordingState == RecordingState.PLAYING || recordingState == RecordingState.PAUSED) {
+        AnimatedVisibility(
+            visible = recordingState == RecordingState.PLAYING || recordingState == RecordingState.PAUSED,
+            enter = fadeIn(
+                animationSpec = tween(
+                    durationMillis = 300
+                )
+            ),
+            exit = fadeOut(
+                animationSpec = tween(
+                    durationMillis = 300
+                )
+            ),
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+        ) {
             SmallCircleButton(
-                iconSize = if (recordingState == RecordingState.PLAYING) 20.dp else 30.dp,
+                iconSize = 20.dp,
                 icon = Icons.Default.Close,
                 modifier = Modifier
-                    .align(Alignment.CenterEnd),
-                onClick = {
-                    onCancelClick()
-                },
+                    .bounceClick {
+                        hapticFeedback.performHapticFeedback(
+                            HapticFeedbackType.LongPress
+                        )
+                        onCancelClick()
+                    }
+                ,
                 bgColor = Color.Transparent,
                 borderColor = tertiaryColor,
             )
