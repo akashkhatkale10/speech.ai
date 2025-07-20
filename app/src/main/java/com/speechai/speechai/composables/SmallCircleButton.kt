@@ -22,13 +22,14 @@ import com.speechai.speechai.whiteColor
 fun SmallCircleButton(
     icon: ImageVector,
     iconSize: Dp = 30.dp,
+    size: Dp = 54.dp,
     bgColor: Color = tertiaryColor,
     borderColor: Color = quaternaryColor,
     modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
-            .size(54.dp)
+            .size(size)
             .background(
                 color = bgColor,
                 shape = CircleShape

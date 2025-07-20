@@ -65,6 +65,7 @@ class AndroidAudioRecorder(
 
     private fun startTimer() {
         timerJob = CoroutineScope(Dispatchers.Default).launch {
+            // todo: add logic for max timer limit, currently it is 60 secs
             while (timerState.value < 60 && recordingState == RecordingState.PLAYING) {
                 delay(1000L)
                 _timerState.value++

@@ -897,6 +897,7 @@ fun RecordingButtons(
 fun TimerContent(
     timer: Long,
     modifier: Modifier = Modifier,
+    timerLimit: Long = 60L,
     mainTextSize: Int = 20,
     secondaryTextSize: Int = 16
 ) {
@@ -918,7 +919,7 @@ fun TimerContent(
                     fontWeight = FontWeight.SemiBold
                 )
             ) {
-                append("  /  01:00")
+                append("  /  ${formatTime(timerLimit)}")
             }
         },
         style = CustomTextStyle.copy(
